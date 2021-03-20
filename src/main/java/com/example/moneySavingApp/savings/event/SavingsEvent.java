@@ -3,9 +3,12 @@ package com.example.moneySavingApp.savings.event;
 import com.example.moneySavingApp.savings.constants.EventName;
 import com.example.moneySavingApp.savings.constants.RuleType;
 import com.example.moneySavingApp.savings.rule.SavingsRule;
+import com.example.moneySavingApp.transaction.Transaction;
+import org.apache.tomcat.util.digester.Rule;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * A Savings Event represents an event in the history of a Savings Goal.
@@ -18,6 +21,7 @@ public class SavingsEvent {
 
     private Long id;
     private Long userId;
+    private Long transactionId;
     private Long savingsGoalId;
     private Long savingsRuleId;
     private EventName eventName;
@@ -29,11 +33,13 @@ public class SavingsEvent {
     private Boolean cancelled;
     private Instant created;
 
+
     public SavingsEvent() {}
 
-    public SavingsEvent(Long id, Long userId, Long savingsGoalId, Long savingsRuleId, EventName eventName, LocalDate date, Double amount, Long triggerId, RuleType ruleType, Long savingsTransferId, Boolean cancelled, Instant created) {
+    public SavingsEvent(Long id, Long userId, Long transactionId, Long savingsGoalId, Long savingsRuleId, EventName eventName, LocalDate date, Double amount, Long triggerId, RuleType ruleType, Long savingsTransferId, Boolean cancelled, Instant created) {
         this.id = id;
         this.userId = userId;
+        this.transactionId = transactionId;
         this.savingsGoalId = savingsGoalId;
         this.savingsRuleId = savingsRuleId;
         this.eventName = eventName;
@@ -60,6 +66,14 @@ public class SavingsEvent {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
     }
 
     public Long getSavingsGoalId() {
@@ -153,4 +167,5 @@ public class SavingsEvent {
     public Boolean getCancelled() {
         return cancelled;
     }
+
 }

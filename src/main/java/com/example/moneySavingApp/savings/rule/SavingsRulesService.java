@@ -22,4 +22,5 @@ public interface SavingsRulesService {
     List<SavingsEvent> executeRule(SavingsRule savingsRule);
 
     List<Transaction> allTransactions(SavingsRule savingsRule);
+
 }

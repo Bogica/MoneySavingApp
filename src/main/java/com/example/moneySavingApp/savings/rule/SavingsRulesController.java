@@ -14,11 +14,11 @@ public class SavingsRulesController {
 
     private final SavingsRulesService savingsRulesService;
 
+
     @Autowired
     public SavingsRulesController(SavingsRulesService savingsRulesService) {
         this.savingsRulesService = savingsRulesService;
     }
-
 
     @GetMapping("/active/{userId}")
     public List<SavingsRule> activeRulesForUser(@PathVariable Long userId) {
@@ -34,6 +34,8 @@ public class SavingsRulesController {
     public List<Transaction> allTransactionsByUser(@RequestBody SavingsRule savingsRule){
         return savingsRulesService.allTransactions(savingsRule);
     }
+
+
 
 
 

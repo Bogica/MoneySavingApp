@@ -13,6 +13,7 @@ public class SavingsRule {
 
     private Long id;
     private Long userId;
+
     private String placeDescription;
     private Double amount;
     private List<Long> savingsGoalIds;
