@@ -2,8 +2,6 @@
 
 The code skeleton consists of a functional Spring Boot application that contains logic for applying Savings Rules for a user, given some hardcoded bank transaction data and settings. 
 
-To complete the task, clone this repository, implement your solution and submit a link or zipped repository for review.
-
 # **Basic Domain Concepts**
 **Transaction**
 
@@ -23,12 +21,12 @@ A SavingsEvent is an event in the history of a Savings Goal. In this task it is 
 
 **Task Specification**
 
-Implement the method `executeRule()` in StandardSavingsRulesService. The method should load the latest transactions for the user using the TransactionsService and apply the given SavingsRule to those transactions. The result is a list of SavingsEvents. If a rule is configured for more than one SavingsGoal, the saved amount should be split equally amongst the goals. Note that there are two different RuleTypes: The Roundup Rule and the Guilty Pleasure Rule. The implementation should handle both types. Both of these rules should only be applied to expense transactions.
+Implemented method `executeRule()` in StandardSavingsRulesService loads the latest transactions for the user using the TransactionsService and applies the given SavingsRule to those transactions. The result is a list of SavingsEvents. If a rule is configured for more than one SavingsGoal, the saved amount should be split equally amongst the goals. Note that there are two different RuleTypes: The Roundup Rule and the Guilty Pleasure Rule. The implementation should handle both types. Both of these rules should only be applied to expense transactions.
 
 
 1.1. The Roundup Rule: When the Roundup Rule is applied to a transaction, it rounds the amount on the transaction to the nearest multiple of the configured roundup amount and generates a SavingsEvent with the difference as the saved amount. I.e., for a transaction of $3.55 with a Roundup Rule configured to round up to the nearest $2.00, the saved amount is $0.45. For a transaction of $2.55, with an identically configured amount, the roundup would be $1.45.
 
 1.2. The Guilty Pleasure Rule: When the Guilty Pleasure Rule is applied to a transaction, it should check that the configured description matches the transaction's description. If so, the configured amount is saved.
 
-Create an endpoint method in SavingsRulesController that takes a SavingsRule object as a JSON body, calls the executeRule() method implemented above and returns the list of SavingsEvents as a JSON body. Any dates in the JSON objects must be expressed as strings in the ISO 8601 format.
+Endpoint is created in SavingsRulesController that takes a SavingsRule object as a JSON body, calls the executeRule() method implemented above and returns the list of SavingsEvents as a JSON body. Date in the JSON objects is expressed as strings in the ISO 8601 format.
 
