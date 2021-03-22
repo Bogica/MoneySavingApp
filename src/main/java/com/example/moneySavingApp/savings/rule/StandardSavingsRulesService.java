@@ -7,8 +7,13 @@ import com.example.moneySavingApp.transaction.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -46,33 +51,32 @@ public class StandardSavingsRulesService implements SavingsRulesService {
 
         long savingsEventId = 1L;
 
-        for(Transaction t : userTransaction){
+        for (Transaction t : userTransaction) {
             List<SavingsEvent> savingsEvents = new ArrayList<>();
 
-                Double amountTransaction = t.getAmount();
+            Double amountTransaction = t.getAmount();
 
-                if (amountTransaction >= 0) {
-                    continue;
+            if (amountTransaction >= 0) {
+                continue;
+            }
+
+            if (savingsRule.getRuleType() == RuleType.ROUNDUP) {
+                double wholeNumber = Math.ceil(amountTransaction / 2);
+                double result = wholeNumber * 2;
+                double saving = result - amountTransaction;
+                saving = Double.parseDouble(new DecimalFormat("##.##").format(saving));
+            }
+
+            if (savingsRule.getRuleType() == RuleType.GUILTYPLEASURE) {
+                if (savingsRule.getPlaceDescription().equals(t.getDescription())) {
+                    savingsEvents = getSavingEvents(savingsRule.getAmount(), savingsRule);
                 }
+            }
 
-                if (savingsRule.getRuleType() == RuleType.ROUNDUP) {
-                    double wholeNumber = Math.ceil(amountTransaction / 2);
-                    double result = wholeNumber * 2;
-                    double saving = result - amountTransaction;
-                    savingsEvents = getSavingEvents(t.getId(), saving, savingsRule);
-                }
-
-                if (savingsRule.getRuleType() == RuleType.GUILTYPLEASURE) {
-                    if (savingsRule.getPlaceDescription().equals(t.getDescription())) {
-                        savingsEvents = getSavingEvents(t.getId(), savingsRule.getAmount(), savingsRule);
-                    }
-                }
-
-
-                for(SavingsEvent se : savingsEvents){
-                    se.setId(savingsEventId ++);
-                    savingsEventList.add(se);
-                }
+            for (SavingsEvent se : savingsEvents) {
+                se.setId(savingsEventId++);
+                savingsEventList.add(se);
+            }
 
         }
 
@@ -80,23 +84,30 @@ public class StandardSavingsRulesService implements SavingsRulesService {
 
     }
 
-    public List<SavingsEvent> getSavingEvents(Long transactionId, double amount, SavingsRule savingsRule) {
+    public List<SavingsEvent> getSavingEvents(double amount, SavingsRule savingsRule) {
         List<Long> savingGoalIds = savingsRule.getSavingsGoalIds();
         List<SavingsEvent> savingsEventsList = new ArrayList<>();
+
         for (Long id : savingGoalIds) {
             SavingsEvent savingsEvent = new SavingsEvent();
+            LocalDate date = LocalDate.now();
+
             savingsEvent.setAmount(amount / savingGoalIds.toArray().length);
             savingsEvent.setSavingsGoalId(id);
-
-            savingsEvent.setTransactionId(transactionId);
             savingsEvent.setUserId(savingsRule.getUserId());
             savingsEvent.setSavingsRuleId(savingsRule.getId());
-            savingsEvent.setDate(LocalDate.now());
+            savingsEvent.setDate(formatDate(date));
             savingsEvent.setRuleType(savingsRule.getRuleType());
 
             savingsEventsList.add(savingsEvent);
         }
         return savingsEventsList;
+    }
+
+    public static String formatDate(LocalDate date) {
+        Date utilDate = Date.from(date.atStartOfDay(ZoneOffset.UTC).toInstant());
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+        return dateFormat.format(utilDate);
     }
 
     @Override
@@ -106,3 +117,5 @@ public class StandardSavingsRulesService implements SavingsRulesService {
     }
 
 }
+
+

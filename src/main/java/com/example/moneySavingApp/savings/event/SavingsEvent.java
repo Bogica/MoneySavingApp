@@ -25,7 +25,7 @@ public class SavingsEvent {
     private Long savingsGoalId;
     private Long savingsRuleId;
     private EventName eventName;
-    private LocalDate date;
+    private String date;
     private Double amount;
     private Long triggerId;
     private RuleType ruleType;
@@ -36,7 +36,7 @@ public class SavingsEvent {
 
     public SavingsEvent() {}
 
-    public SavingsEvent(Long id, Long userId, Long transactionId, Long savingsGoalId, Long savingsRuleId, EventName eventName, LocalDate date, Double amount, Long triggerId, RuleType ruleType, Long savingsTransferId, Boolean cancelled, Instant created) {
+    public SavingsEvent(Long id, Long userId, Long transactionId, Long savingsGoalId, Long savingsRuleId, EventName eventName, String date, Double amount, Long triggerId, RuleType ruleType, Long savingsTransferId, Boolean cancelled, Instant created) {
         this.id = id;
         this.userId = userId;
         this.transactionId = transactionId;
@@ -100,11 +100,11 @@ public class SavingsEvent {
         this.eventName = eventName;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
