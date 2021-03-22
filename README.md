@@ -1,8 +1,6 @@
 # Introduction
 
-This is a code skeleton for a test task for backend developer candidates seeking to join Qapital.
-
-The code skeleton consists of a functional Spring Boot application that contains logic for applying Savings Rules for a user, given some hardcoded bank transaction data and settings. The task is to implement certain missing pieces of the application, and by doing so demonstrate an understanding of the technologies involved and how to structure code in a well-thought-out way.
+The code skeleton consists of a functional Spring Boot application that contains logic for applying Savings Rules for a user, given some hardcoded bank transaction data and settings. 
 
 To complete the task, clone this repository, implement your solution and submit a link or zipped repository for review.
 
