@@ -30,7 +30,7 @@ public class StandardSavingsRulesService implements SavingsRulesService {
     @Override
     public List<SavingsRule> activeRulesForUser(Long userId) {
 
-        SavingsRule guiltyPleasureRule = SavingsRule.createGuiltyPleasureRule(1l, userId, "Starbucks", 5.34d);
+        SavingsRule guiltyPleasureRule = SavingsRule.createGuiltyPleasureRule(1l, userId, "Starbucks", 3d);
         guiltyPleasureRule.addSavingsGoal(1l);
         guiltyPleasureRule.addSavingsGoal(2l);
         SavingsRule roundupRule = SavingsRule.createRoundupRule(2l, userId, 2.00d);
@@ -61,8 +61,8 @@ public class StandardSavingsRulesService implements SavingsRulesService {
             }
 
             if (savingsRule.getRuleType() == RuleType.ROUNDUP) {
-                double wholeNumber = Math.ceil(amountTransaction / 2);
-                double result = wholeNumber * 2;
+                double wholeNumber = Math.ceil(amountTransaction / savingsRule.getAmount());
+                double result = wholeNumber * savingsRule.getAmount();
                 double saving = result - amountTransaction;
                 saving = Double.parseDouble(new DecimalFormat("##.##").format(saving));
             }

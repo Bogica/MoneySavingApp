@@ -25,7 +25,7 @@ public class SavingsRulesController {
         return savingsRulesService.activeRulesForUser(userId);
     }
 
-    @GetMapping("/executeRules")
+    @GetMapping("/savings")
     public List<SavingsEvent> executeRule(@RequestBody SavingsRule savingsRule){
         return savingsRulesService.executeRule(savingsRule);
     }
