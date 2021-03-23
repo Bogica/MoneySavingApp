@@ -61,15 +61,17 @@ public class StandardSavingsRulesService implements SavingsRulesService {
             }
 
             if (savingsRule.getRuleType() == RuleType.ROUNDUP) {
-                double wholeNumber = Math.ceil(amountTransaction / savingsRule.getAmount());
+                double wholeNumber = Math.round(amountTransaction / savingsRule.getAmount());
                 double result = wholeNumber * savingsRule.getAmount();
                 double saving = result - amountTransaction;
                 saving = Double.parseDouble(new DecimalFormat("##.##").format(saving));
+                savingsEvents = getSavingEvents(saving, savingsRule);
             }
 
             if (savingsRule.getRuleType() == RuleType.GUILTYPLEASURE) {
                 if (savingsRule.getPlaceDescription().equals(t.getDescription())) {
                     savingsEvents = getSavingEvents(savingsRule.getAmount(), savingsRule);
+
                 }
             }
 
